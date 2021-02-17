@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Snowplow Robot</title>
+  <title>Self-Levelling Table</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="keywords">
   <meta content="" name="description">
@@ -72,12 +72,12 @@
     <div class="intro-content display-table">
       <div class="table-cell">
         <div class="container">
-          <h2 class="intro-title mb-4">Sidewalk Snowplow Robot</h2>
+          <h2 class="intro-title mb-4">Self-Levelling Table</h2>
           <ol class="breadcrumb d-flex justify-content-center">
 <!--             <li class="breadcrumb-item"> -->
-            <p class="pt-3"><a class="btn btn-primary btn js-scroll px-4" href="total-warfare.html" role="button">Previous</a></p>
+            <p class="pt-3"><a class="btn btn-primary btn js-scroll px-4" href="tcw.html" role="button">Previous</a></p>
             <p>&nbsp&nbsp&nbsp&nbsp</p>
-            <p class="pt-3"><a class="btn btn-primary btn js-scroll px-4" href="smartchess.html" role="button">Next</a></p>
+            <p class="pt-3"><a class="btn btn-primary btn js-scroll px-4" href="arcade.html" role="button">Next</a></p>
 <!--               <a href="#">Home</a> -->
 <!--             </li> -->
 <!--             <li class="breadcrumb-item"> -->
@@ -103,7 +103,7 @@
               <ul>
                 <li>
                   <span class="ion-calendar"></span>
-                  <a href="#">November 2020</a>
+                  <a href="#">Summer 2019</a>
                 </li>
 <!--                 <li> -->
 <!--                   <span class="ion-pricetag"></span> -->
@@ -117,23 +117,51 @@
             </div>
             <div class="article-content">
               <p>
-                With winter fast approaching, I worked with a team to create a robot to simultaneously plow snow and spread salt on the sidewalk. This robot has built in speakers and a microphone so that the remote operator can interact with pedestrians. The robot is also equipped with four emergency stop buttons to provide a fail-safe stopping system. The plow was built from scratch and is able to fold in the centre to create a scoop or V shape. I worked on all aspects of the robot, from painting to soldering the PCBs. I also created the wiring schematic for the robot.
-              </p>
+                In my summer before first year, I started a business creating custom tables. Epoxy resin is one material that I used. To use resin, you need to pour the liquid into a perfectly level mold for it to set. Doing this in my garage was initially difficult because the ground is far from level. To address this, I started designing a work bench that would adjust its legs to completely level itself with a built in gyroscope. For the gyroscope, I used the MPU -6050 module which I connected directly to an Arduino Uno. I was able to collect the yaw, pitch and roll(YPR). The Arduino used trigonometric functions to find exactly how much longer each leg should get in order to return to level given the current YPR and set table dimensions. The legs move individually with a motor rotating a threaded rod as shown on the design section below.
+
+                <br><br>Here is a section of my Arduino code: </p>
+                 <blockquote class="blockquote">
+                                <p class="mb-0">mpu.dmpGetQuaternion(&q, fifoBuffer); <br>
+                                mpu.dmpGetGravity(&gravity, &q);<br>
+                                mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);<br>
+                                double w = 3;<br>
+                                double l = 6;<br>
+                                double leg1 = 0;<br>
+                                double leg2 = 0;<br>
+                                double leg3 = 0;<br>
+                                double leg4 = 0;<br>
+                                double pitch = ypr[1] * 180/M_PI;<br>
+                                double roll = ypr[2] * 180/M_PI;<br>
+                                double x = (w*tan(pitch*0.01745329252)*12);<br>
+                                double y = (l*tan(roll* 0.01745329252)*12);<br>
+                                    <br>
+                                if(x>0){<br>
+                                  leg1=leg1+x;<br>
+                                  leg4=leg4+x;<br>
+                                }<br>
+                                else if (x<0){<br>
+                                  leg2=leg2-x;<br>
+                                  leg3=leg3-x;<br>
+                                    }
+                                  </p>
+                              </blockquote>
+                
+             
             </div>
             <div class="post-thumb">
-              <img src="img/snowplow.png" class="img-fluid" alt="">
+              <img src="img/level/level1.png" class="img-fluid" alt="">
             </div>
             <div class="post-thumb">
-              <img src="img/snowplow/snowplow1.png" class="img-fluid" alt="">
+              <img src="img/level/level2.png" class="img-fluid" alt="">
             </div>
             <div class="post-thumb">
-              <img src="img/snowplow/snowplow2.png" class="img-fluid" alt="">
+              <img src="img/level/level3.png" class="img-fluid" alt="">
             </div>
             <div class="post-thumb">
-              <img src="img/snowplow/snowplow3.png" class="img-fluid" alt="">
+              <img src="img/level/level4.png" class="img-fluid" alt="">
             </div>
             <div class="post-thumb">
-              <img src="img/snowplow/snowplow4.png" class="img-fluid" alt="">
+              <img src="img/level/level5.png" class="img-fluid" alt="">
             </div>
           </div>
           
@@ -179,6 +207,9 @@
             <h5 class="sidebar-title">Other Projects</h5>
             <div class="sidebar-content">
               <ul class="list-sidebar">
+              <li>
+                <a href="snowplow-robot.html">Sidewalk Snowplow Robot</a>
+              </li>
                 <li>
                   <a href="smartchess.html">SmartChess</a>
                 </li>
@@ -192,9 +223,7 @@
                 <li>
                   <a href="tcw.html">Toronto Custom Woodworking</a>
                 </li>
-                <li>
-                  <a href="level.html">Self-Levelling Table</a>
-                </li>
+                
                 <li>
                   <a href="arcade.html">Arcade Machine</a>
                  </li>
@@ -214,8 +243,9 @@
             <h5 class="sidebar-title">Related Skills</h5>
             <div class="sidebar-content">
               <ul>
+              
                 <li>
-                  <a href="#">Soldering</a>
+                  <a href="#">Arduino</a>
                 </li>
                 <li>
                   <a href="#">CAD</a>
@@ -230,7 +260,7 @@
                   <a href="#">Electrical Schematics</a>
                 </li>
                 <li>
-                  <a href="#">Wiring/Crimping</a>
+                  <a href="#">Motors</a>
                 </li>
               </ul>
             </div>
